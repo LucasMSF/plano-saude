@@ -2,10 +2,15 @@ package br.lucasdev.planoSaude.controller;
 
 import br.lucasdev.planoSaude.dto.request.AtualizarBeneficiarioDto;
 import br.lucasdev.planoSaude.dto.request.CadastroBeneficiarioDto;
+import br.lucasdev.planoSaude.dto.response.ErroDto;
 import br.lucasdev.planoSaude.model.Beneficiario;
 import br.lucasdev.planoSaude.model.Documento;
 import br.lucasdev.planoSaude.service.IBeneficiarioService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -38,6 +43,11 @@ public class BeneficiarioController {
     }
     @GetMapping(path = "{id}/documentos")
     @Operation(summary = "Listar Documentos do beneficiário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista dos documentos do beneficiário"),
+            @ApiResponse(responseCode = "404", description = "Beneficiário não encontrado",
+                    content = @Content(schema = @Schema(implementation = ErroDto.class)))
+    })
     public ResponseEntity<List<Documento>> listarDocumentos(@PathVariable Long id) {
         Beneficiario beneficiario = this.beneficiarioService.obterBeneficiario(id);
         return new ResponseEntity<>(this.beneficiarioService.obterDocumentos(beneficiario), HttpStatus.OK);
@@ -57,6 +67,13 @@ public class BeneficiarioController {
     }
     @PutMapping(path = "{id}")
     @Operation(summary = "Atualizar beneficiário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Beneficiário atualizado"),
+            @ApiResponse(responseCode = "404", description = "Beneficiário não encontrado",
+                    content = @Content(schema = @Schema(implementation = ErroDto.class))),
+            @ApiResponse(responseCode = "400", description = "Chamada inválida",
+                    content = @Content(schema = @Schema(implementation = ErroDto.class)))
+    })
     public ResponseEntity<Beneficiario> atualizar(@PathVariable Long id, @Valid @RequestBody AtualizarBeneficiarioDto atualizarBeneficiarioDto) {
         Beneficiario beneficiario = this.beneficiarioService.obterBeneficiario(id);
         modelMapper.map(atualizarBeneficiarioDto, beneficiario);
@@ -66,6 +83,11 @@ public class BeneficiarioController {
 
     @DeleteMapping(path = "{id}")
     @Operation(summary = "Excluir beneficiário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Beneficiário excluído"),
+            @ApiResponse(responseCode = "404", description = "Beneficiário não encontrado",
+                    content = @Content(schema = @Schema(implementation = ErroDto.class)))
+    })
     public ResponseEntity<Beneficiario> excluir(@PathVariable Long id) {
         Beneficiario beneficiario = this.beneficiarioService.obterBeneficiario(id);
         this.beneficiarioService.excluirBeneficiario(beneficiario);

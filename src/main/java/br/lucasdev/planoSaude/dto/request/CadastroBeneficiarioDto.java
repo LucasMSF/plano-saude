@@ -1,5 +1,6 @@
 package br.lucasdev.planoSaude.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -8,9 +9,9 @@ import java.util.Set;
 
 @Data
 public class CadastroBeneficiarioDto {
-    @NotNull
+    @NotBlank
     private String nome;
-    @NotNull
+    @NotBlank
     private String telefone;
     @NotNull
     private LocalDate dataNascimento;
