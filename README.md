@@ -17,13 +17,13 @@ Para executar o projeto, siga os seguintes passos:
 
 ## 🔌 Endpoints
 
-A aplicação expõe uma rota com SwaggerUI (`/docs/`) para testar os endpoints 
+A aplicação expõe uma rota com Scalar UI (`/docs/`) para testar os endpoints 
 
 ## 📏  Aquitetura e padrões utilizados 
 ![Architecture](aplicacao.PNG)
  - [x] Validação de payloads com Bean Validation
  - [x] Mapeamento de DTOs para Entidades com ModelMapper
- - [x] Documentação padrão OpenApi Com SpringDoc
+ - [x] Documentação padrão OpenApi Com Swagger
 
 ## 💻 Tecnologias
 
